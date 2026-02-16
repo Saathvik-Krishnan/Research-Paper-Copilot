@@ -42,6 +42,7 @@ def build_knowledge(collection: str) -> Knowledge:
     vector_db = Qdrant(
         collection=collection,      # Qdrant collection name (paper-specific)
         url=settings.QDRANT_URL,     # Qdrant server URL (usually local docker)
+        api_key=settings.QDRANT_API_KEY,  # Qdrant Cloud API key (optional for local)
         embedder=embedder,           # embedding model used for indexing + search
     )
 

@@ -687,7 +687,7 @@ def list_chunks(paper_id: str, limit: int = 20, offset: int = 0):
     collection = f"paper_{paper_id}"
 
     # Qdrant client uses the configured URL (local docker container typically)
-    client = QdrantClient(url=settings.QDRANT_URL)
+    client = QdrantClient(url=settings.QDRANT_URL, api_key=settings.QDRANT_API_KEY)
 
     try:
         points, _next = client.scroll(
