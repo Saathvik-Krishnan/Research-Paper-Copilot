@@ -29,7 +29,9 @@ from .config import settings
 # 2) Retrieve relevant chunks for a question
 # 3) Ask the LLM to answer using ONLY retrieved sources (grounded RAG)
 # 4) Provide evaluation metrics + logs for debugging and improvement
-app = FastAPI(title="Research Paper Copilot (Agno)")
+app = FastAPI(
+    title="PaperSphere-AI: Agentic Multi-Paper RAG Pipeline with Hybrid BM25 + Vector Search and Metric-Aware Synthesis"
+)
 
 
 # -------------------------------------------------------------------

@@ -1,6 +1,6 @@
-# Research Paper Copilot
+# PaperSphere-AI: Agentic Multi-Paper RAG Pipeline with Hybrid BM25 + Vector Search and Metric-Aware Synthesis
 
-Research Paper Copilot is a FastAPI + Streamlit RAG application for ingesting research PDFs, indexing them in Qdrant, and answering grounded questions using Gemini via Agno.
+PaperSphere-AI is a FastAPI + Streamlit RAG application for ingesting research PDFs, indexing them in Qdrant, and answering grounded questions using Gemini via Agno.
 
 It supports:
 - Single-paper QA with citations

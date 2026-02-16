@@ -76,9 +76,12 @@ def load_memory(paper_id: str, limit: int = 50) -> List[Dict[str, Any]]:
     return items[-limit:]
 
 
-st.set_page_config(page_title="Research Paper Copilot", layout="wide")
+st.set_page_config(
+    page_title="PaperSphere-AI: Agentic Multi-Paper RAG Pipeline with Hybrid BM25 + Vector Search and Metric-Aware Synthesis",
+    layout="wide",
+)
 
-st.title("📄 Research Paper Copilot")
+st.title("📄 PaperSphere-AI: Agentic Multi-Paper RAG Pipeline with Hybrid BM25 + Vector Search and Metric-Aware Synthesis")
 
 with st.sidebar:
     st.subheader("API")
