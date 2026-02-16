@@ -3,6 +3,8 @@ uvicorn[standard]
 python-multipart
 pydantic-settings
 python-dotenv
+requests
+streamlit
 
 agno
 google-genai

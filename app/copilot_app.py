@@ -6,7 +6,25 @@ from typing import Any, Dict, List
 import requests
 import streamlit as st
 
-API_BASE = os.getenv("API_BASE", "http://127.0.0.1:8000")
+DEFAULT_API_BASE = "http://127.0.0.1:8000"
+
+
+def get_api_base() -> str:
+    env_api_base = os.getenv("API_BASE")
+    if env_api_base:
+        return env_api_base.rstrip("/")
+
+    try:
+        secret_api_base = st.secrets.get("API_BASE")
+        if secret_api_base:
+            return str(secret_api_base).rstrip("/")
+    except Exception:
+        pass
+
+    return DEFAULT_API_BASE
+
+
+API_BASE = get_api_base()
 MEM_DIR = "data/memory"
 os.makedirs(MEM_DIR, exist_ok=True)
 
