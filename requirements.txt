@@ -9,3 +9,4 @@ google-genai
 
 qdrant-client
 pypdf
+rank-bm25
