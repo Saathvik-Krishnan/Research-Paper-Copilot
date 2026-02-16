@@ -1,0 +1,26 @@
+flowchart LR
+    U[User] --> S[Streamlit Frontend<br/>Community Cloud]
+    S -->|API_BASE calls| B[FastAPI Backend<br/>Render]
+
+    B --> I[/POST /ingest/]
+    B --> A[/POST /ask/]
+    B --> M[/POST /ask_multi/]
+    B --> E[/POST /eval/run/]
+    B --> H[/GET /health and /docs/]
+
+    I --> P[PDF Chunking and Embedding<br/>Gemini Embedder via Agno]
+    P --> Q[(Qdrant Cloud)]
+
+    A --> R1[Hybrid Retrieval<br/>BM25 + Vector + MMR]
+    M --> R2[Per-Paper Retrieval<br/>Structured Extraction]
+    E --> R3[Retrieval and Eval Metrics]
+
+    R1 --> Q
+    R2 --> Q
+    R3 --> Q
+
+    R1 --> G[Gemini LLM + Agno Team]
+    R2 --> G
+    G --> C[Grounded Answers and Citations]
+
+    C --> S
