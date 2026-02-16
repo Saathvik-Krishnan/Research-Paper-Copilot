@@ -56,8 +56,8 @@ docker-compose.yml  # Qdrant service
 ## Prerequisites
 
 - Python 3.10+
-- Docker (for Qdrant)
 - Google API key with Gemini access
+- Qdrant Cloud cluster URL + API key (or local Docker Qdrant)
 
 ## Setup
 
@@ -84,14 +84,15 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Create `.env` from `.env.example` and set your key:
+4. Create `.env` from `.env.example` and set keys:
 
 ```env
 GOOGLE_API_KEY=your_real_google_api_key
-QDRANT_URL=http://localhost:6333
+QDRANT_URL=https://your-qdrant-cluster-url
+QDRANT_API_KEY=your_qdrant_api_key
 ```
 
-5. Start Qdrant:
+5. Optional (only if using local Qdrant instead of Qdrant Cloud):
 
 ```bash
 docker compose up -d
@@ -113,6 +114,40 @@ streamlit run app/copilot_app.py
 
 - FastAPI docs: `http://127.0.0.1:8000/docs`
 - Streamlit UI: shown in terminal output (usually `http://localhost:8501`)
+
+## Deploy Backend on Render (Free)
+
+1. Create a **Web Service** in Render from this GitHub repo.
+2. Use:
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+   - Branch: `main`
+   - Runtime: Python 3
+3. Add Render environment variables:
+   - `GOOGLE_API_KEY`
+   - `QDRANT_URL`
+   - `QDRANT_API_KEY`
+4. Deploy and verify:
+   - `https://<your-render-url>/health`
+   - `https://<your-render-url>/docs`
+
+Note: root URL (`/`) may return `{"detail":"Not Found"}` if no root route is defined. Use `/health` or `/docs`.
+
+## Deploy Frontend on Streamlit Community Cloud
+
+1. Go to Streamlit Community Cloud and click **Deploy a public app from GitHub**.
+2. Select:
+   - Repo: `Saathvik-Krishnan/Research-Paper-Copilot`
+   - Branch: `main`
+   - Main file path: `app/copilot_app.py`
+3. In **Manage app -> Settings -> Secrets**, add:
+
+```toml
+API_BASE = "https://<your-render-url>"
+```
+
+4. Save and reboot the app.
+5. Confirm sidebar shows `API_BASE` as your Render URL (not `http://127.0.0.1:8000`).
 
 ## API Endpoints
 
@@ -180,6 +215,8 @@ Request body:
 - Each paper is isolated in its own Qdrant collection (`paper_<paper_id>`).
 - Local memory is stored per paper in `data/memory/<paper_id>_chat.jsonl`.
 - Uploaded files and eval logs are kept under `data/` for traceability.
+- Render free tier sleeps when idle; first request can be slow (cold start).
+- Streamlit and Render local disk are ephemeral; use external storage if you need persistent uploads/memory/logs.
 
 ## Future Improvements
 
